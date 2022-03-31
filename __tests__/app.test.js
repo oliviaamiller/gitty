@@ -22,4 +22,22 @@ describe('gitty routes', () => {
   });
 
 
+  it('should callback URI for Github to redirect to after log in', async () => {
+    const req = await request
+      .agent(app)
+      .get('/api/v1/github/login/callback')
+      .redirects(1);
+
+    expect(req.body).toEqual({
+      id: expect.any(String),
+      username: 'Ernie',
+      email: 'meow@meow.meow',
+      avatar: expect.any(String),
+      iat: expect.any(Number),
+      exp: expect.any(Number)
+    });
+
+  });
+
+
 });
