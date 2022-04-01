@@ -44,18 +44,24 @@ describe('gitty routes', () => {
   });
 
   it ('lists all posts for all signed in users', async () => {
+    let res = await request(app)
+      .get('/api/v1/github/login');
+
     const agent = request.agent(app);
 
-    const res = await agent
-      .get('/api/v1/posts');
+    res = await agent
+      .get('/api/v1/github/login/callback?code=42')
+      .redirects(1);
 
+    // res = await agent
+    //   .get('/api/v1/posts');
+ 
     const expected = [{
       id: expect.any(String),
       text: 'my first post!'
     }];
 
     expect(res.body).toEqual(expected);
-    
   });
 
 
