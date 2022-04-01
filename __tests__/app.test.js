@@ -2,7 +2,6 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
-const GithubUser = require('../lib/models/GithubUser');
 
 jest.mock('../lib/utils/github');
 
@@ -44,17 +43,14 @@ describe('gitty routes', () => {
   });
 
   it ('lists all posts for all signed in users', async () => {
-    let res = await request(app)
+    await request(app)
       .get('/api/v1/github/login');
 
     const agent = request.agent(app);
 
-    res = await agent
+    const res = await agent
       .get('/api/v1/github/login/callback?code=42')
       .redirects(1);
-
-    // res = await agent
-    //   .get('/api/v1/posts');
  
     const expected = [{
       id: expect.any(String),
@@ -64,5 +60,26 @@ describe('gitty routes', () => {
     expect(res.body).toEqual(expected);
   });
 
+  it('allows signed in users to create new posts', async () => {
+    await request(app)
+      .get('/api/v1/github/login');
+
+    const agent = request.agent(app);
+
+    await agent
+      .get('/api/v1/github/login/callback?code=42')
+      .redirects(1);
+
+    const expected = [{
+      id: expect.any(String),
+      text: 'my first post!'
+    }];
+
+    const res = await agent
+      .post('/api/v1/posts')
+      .send(expected);
+
+    expect(res.body).toEqual(expected);
+  });
 
 });
