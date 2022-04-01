@@ -32,5 +32,15 @@ describe('gitty routes', () => {
 
   });
 
+  it ('signs out a user', async () => {
+    const res = await request(app)
+      .delete('/api/v1/github');
+
+    expect(res.body).toEqual({
+      success: true,
+      message: 'You have signed out'
+    });
+  });
+
 
 });
