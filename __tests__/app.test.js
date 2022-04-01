@@ -3,7 +3,7 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 
-// jest.mock('../lib/utils/github');
+jest.mock('../lib/utils/github');
 
 describe('gitty routes', () => {
   beforeEach(() => {
@@ -25,7 +25,7 @@ describe('gitty routes', () => {
   it('should callback URI for Github to redirect to after log in', async () => {
     const req = await request
       .agent(app)
-      .get('/api/v1/github/login/callback')
+      .get('/api/v1/github/login/callback?code=42')
       .redirects(1);
 
     expect(req.body).toEqual({
