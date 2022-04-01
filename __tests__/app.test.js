@@ -70,14 +70,16 @@ describe('gitty routes', () => {
       .get('/api/v1/github/login/callback?code=42')
       .redirects(1);
 
-    const expected = [{
+    const expected = {
       id: expect.any(String),
-      text: 'my first post!'
-    }];
+      text: 'this is my second post and there is not much new to say'
+    };
 
     const res = await agent
       .post('/api/v1/posts')
-      .send(expected);
+      .send({ 
+        text: 'this is my second post and there is not much new to say'
+      });
 
     expect(res.body).toEqual(expected);
   });
