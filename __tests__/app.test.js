@@ -18,11 +18,11 @@ describe('gitty routes', () => {
     const res = await request(app)
       .get('/api/v1/github/login');
 
-    expect(res.header.location).toMatch('https://github.com/login/oauth/authorize?client_id=undefined&scope=user&redirect_uri=undefined');
+    expect(res.header.location).toMatch('https://github.com/login/oauth/authorize?client_id=12e87002258f49409c96&scope=user&redirect_uri=http://localhost:7890/api/v1/github/login/callback');
   });
 
 
-  it('should redirect to posts when logged in', async () => {
+  it('redirects to posts when logged in', async () => {
     const res = await request
       .agent(app)
       .get('/api/v1/github/login/callback?code=42')
