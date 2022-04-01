@@ -2,6 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
+const GithubUser = require('../lib/models/GithubUser');
 
 jest.mock('../lib/utils/github');
 
@@ -40,6 +41,21 @@ describe('gitty routes', () => {
       success: true,
       message: 'You have signed out'
     });
+  });
+
+  it ('lists all posts for all signed in users', async () => {
+    const agent = request.agent(app);
+
+    const res = await agent
+      .get('/api/v1/posts');
+
+    const expected = [{
+      id: expect.any(String),
+      text: 'my first post!'
+    }];
+
+    expect(res.body).toEqual(expected);
+    
   });
 
 
