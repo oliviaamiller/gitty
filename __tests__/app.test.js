@@ -2,7 +2,6 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
-const req = require('express/lib/request');
 
 jest.mock('../lib/utils/github');
 
@@ -86,7 +85,7 @@ describe('gitty routes', () => {
   });
 
 
-  it.only('should return an array of quote objects from 3 sets of API', async() => {
+  it('should return an array of quote objects from 3 sets of API', async() => {
     const res = await request(app)
       .get('/api/v1/quotes');
 
