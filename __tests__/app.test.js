@@ -85,28 +85,27 @@ describe('gitty routes', () => {
     expect(res.body).toEqual(expected);
   });
 
-  it.only('should get three random quotes', async ()  => {
 
-    const expected = [
-      {
-        author: expect.any(String),
-        content: expect.any(String)
-      },
-      {
-        author: expect.any(String),
-        content: expect.any(String)
-      },
-      {
-        author: expect.any(String),
-        content: expect.any(String)
-      }
-    ];
-
-    const req = await request(app)
+  it.only('should return an array of quote objects from 3 sets of API', async() => {
+    const res = await request(app)
       .get('/api/v1/quotes');
 
-    expect(req.body).toEqual(expected);
-
+    const expected = [
+      { 
+        author: expect.any(String), 
+        content: expect.any(String) 
+      },
+      { 
+        author: expect.any(String), 
+        content: expect.any(String) 
+      },
+      { 
+        author: expect.any(String), 
+        content: expect.any(String) 
+      },
+    ];
+  
+    expect(res.body).toEqual(expected);
   });
 
 });
