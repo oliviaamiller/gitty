@@ -84,4 +84,27 @@ describe('gitty routes', () => {
     expect(res.body).toEqual(expected);
   });
 
+
+  it('should return an array of quote objects from 3 sets of API', async() => {
+    const res = await request(app)
+      .get('/api/v1/quotes');
+
+    const expected = [
+      { 
+        author: expect.any(String), 
+        content: expect.any(String) 
+      },
+      { 
+        author: expect.any(String), 
+        content: expect.any(String) 
+      },
+      { 
+        author: expect.any(String), 
+        content: expect.any(String) 
+      },
+    ];
+  
+    expect(res.body).toEqual(expected);
+  });
+
 });
